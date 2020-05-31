@@ -90,12 +90,12 @@ void opt_init  (/*@out@*/applOption *aoObj)
   aoObj->append      = OPT_NOTSPECIFIED;
   aoObj->list        = OPT_NOTSPECIFIED;
   aoObj->interactive = OPT_NOTSPECIFIED;
-  aoObj->nr_personal = OPT_NOTSPECIFIED;
-  aoObj->name        = OPT_NOTSPECIFIED;
-  aoObj->surname     = OPT_NOTSPECIFIED;
-  aoObj->age         = OPT_NOTSPECIFIED;
-  aoObj->address     = OPT_NOTSPECIFIED;
-  aoObj->test_date   = OPT_NOTSPECIFIED;
+  aoObj->nr_personal = -1;
+  aoObj->name        = NULL;
+  aoObj->surname     = NULL;
+  aoObj->age         = -1;
+  aoObj->address     = NULL;
+  aoObj->test_date   = NULL;
   aoObj->f_name      = NULL;
   aoObj->fp          = NULL;
 }
@@ -125,12 +125,12 @@ void opt_free  (/*@out@*/applOption *aoObj)
   aoObj->append      = OPT_NOTSPECIFIED;
   aoObj->list        = OPT_NOTSPECIFIED;
   aoObj->interactive = OPT_NOTSPECIFIED;
-  aoObj->nr_personal = OPT_NOTSPECIFIED;
-  aoObj->name        = OPT_NOTSPECIFIED;
-  aoObj->surname     = OPT_NOTSPECIFIED;
-  aoObj->age         = OPT_NOTSPECIFIED;
-  aoObj->address     = OPT_NOTSPECIFIED;
-  aoObj->test_date   = OPT_NOTSPECIFIED;
+  aoObj->nr_personal = -1;
+  aoObj->name        = NULL;
+  aoObj->surname     = NULL;
+  aoObj->age         = -1;
+  aoObj->address     = NULL;
+  aoObj->test_date   = NULL;
 
   if (aoObj->f_name != NULL)
     {
@@ -185,27 +185,27 @@ int opt_proc (int argc, char *argv [], /*@out@*/applOption *aoObj)
           break;
   
         case 'p':
-          aoObj->nr_personal = OPT_SPECIFIED;
+          aoObj->nr_personal = atoi(optarg);
           break;
         
         case 'n':
-          aoObj->name = OPT_SPECIFIED;
+          aoObj->name = optarg;
           break;
 
         case 's':
-          aoObj->surname = OPT_SPECIFIED;
+          aoObj->surname = optarg;
           break;
 
         case 'm':
-          aoObj->age = OPT_SPECIFIED;
+          aoObj->age = atoi(optarg);
           break;
 
         case 'c':
-          aoObj->address = OPT_SPECIFIED;
+          aoObj->address = optarg;
           break;
         
         case 'd':
-          aoObj->test_date = OPT_SPECIFIED;
+          aoObj->test_date = optarg;
           break;
           
         case 'h':          
@@ -294,20 +294,20 @@ void opt_usage (const char *app_name)
 {
   char *a_name = basename ((char *) app_name);
   
-  printf ("\n%s - Patient Covid list\n", a_name);
+  printf ("\n%s - System for managing patients with Covid-19\n", a_name);
   printf ("\nSYNOPSIS\n");
-  printf ("\texc1 [OPTION] ... \n");
+  printf ("\tcovid [OPTION] ... \n");
   printf ("\t -f arg, (mandatory) the file name \n");
   printf ("\t -a,     (optional) append a string to the file \n");
   printf ("\t -h,     (optional) print this message \n");
   printf ("\t -i,     (optional) start the interactive mode \n");
   printf ("\t -l,     (optional) list all strings stored in the file \n");
-  printf ("\t -p,     (optional) personal number \n");
-  printf ("\t -n,     (optional) patient name \n");
-  printf ("\t -s,     (optional) patient surname \n");
-  printf ("\t -m,     (optional) patient age \n");
-  printf ("\t -c,     (optional) patient current address \n");
-  printf ("\t -t,     (optional) test date \n\n");
+  printf ("\t -p arg, (optional) personal number \n");
+  printf ("\t -n arg, (optional) patient name \n");
+  printf ("\t -s arg, (optional) patient surname \n");
+  printf ("\t -m arg, (optional) patient age \n");
+  printf ("\t -c arg, (optional) patient current address \n");
+  printf ("\t -t arg, (optional) test date \n\n");
   
   exit (EXIT_FAILURE);
 }

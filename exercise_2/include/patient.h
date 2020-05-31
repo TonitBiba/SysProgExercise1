@@ -15,22 +15,23 @@
 
 #include <stdio.h>
 
+#include <str_serialize.h>
+
 #define SER_EOF         -2
 #define SER_ALLOC_ERROR -1
 #define SER_INT_LEN      4
 
 typedef struct _Patient
 {
-    int   nr_personal;
-    char *name;
-    char *surname;
-    int   age;
-    char *address;
-    char *test_date;
+    CString_t  nr_personal;
+    CString_t  name;
+    CString_t  surname;
+    int        age;
+    CString_t  address;
+    CString_t  test_date;
 } Patient_t;
 
-int Patient_init(const int nr_personal, const char *name, const char *surname, const int age, const char *address, const char *test_date, Patient_t *const patient);
-
+int Patient_init(const char *nr_personal, const char *name, const char *surname, const int age, const char *address, const char *test_date, Patient_t *const patient);
 void Patient_free(Patient_t *const patient);
 
 int Patient_write (FILE *fp, /*@null@*/ const Patient_t *const patient);
