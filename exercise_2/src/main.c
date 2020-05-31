@@ -18,7 +18,37 @@
 #include <string.h>
 #include <errno.h>
 
-int main(int argc, char *argv []){
+#include "opt.h"
+
+#define BUFF_LEN (1024)
+
+int main(int argc, char *argv [])
+{
+  char        buff [BUFF_LEN];
+  applOption  aoObj;
+  /*int         status = 0;
+  int         count  = 1;
+  char       *w_str  = NULL; 
+*/
+  opt_init (&aoObj);
+
+  if ((char) opt_proc (argc, argv, &aoObj) == OPT_PROC_ERROR)
+    {
+      opt_free (&aoObj);
+      return EXIT_FAILURE;
+    }
+
+  printf ("\nThe file '%s' is opening ... ", aoObj.f_name);
+  
+  if ((aoObj.fp = fopen (aoObj.f_name, "a+")) == NULL)
+  {
+      printf ("\nError opening the file: '%s' [Error string: '%s']",
+              aoObj.f_name, strerror (errno));
+      opt_free (&aoObj);
+      return -1;
+    }
+
+   printf (" done");
 
     return 0;
 }

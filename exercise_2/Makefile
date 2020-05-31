@@ -44,8 +44,8 @@ $(EXE_DIR):
 ####################################################################
 all: $(OBJ_DIR) $(EXE_DIR) $(EXE_DIR)/covidlist
 
-$(EXE_DIR)/covidlist: $(OBJ_DIR)/main.o $(OBJ_DIR)/patient.o
-	gcc $(OBJ_DIR)/main.o $(OBJ_DIR)/patient.o -o $(EXE_DIR)/covidlist
+$(EXE_DIR)/covidlist: $(OBJ_DIR)/main.o $(OBJ_DIR)/patient.o $(OBJ_DIR)/opt.o
+	gcc $(OBJ_DIR)/main.o $(OBJ_DIR)/patient.o $(OBJ_DIR)/opt.o -o $(EXE_DIR)/covidlist
 
 $(OBJ_DIR)/main.o: $(SRC_DIR)/main.c 
 	gcc $(FLAGS) $(INCLUDEPATHS) -o $(OBJ_DIR)/main.o $(SRC_DIR)/main.c 
@@ -53,6 +53,8 @@ $(OBJ_DIR)/main.o: $(SRC_DIR)/main.c
 $(OBJ_DIR)/patient.o: $(SRC_DIR)/patient.c $(INCLUDE_DIR)/patient.h
 	gcc $(FLAGS) $(INCLUDEPATHS) -o $(OBJ_DIR)/patient.o $(SRC_DIR)/patient.c
 
+$(OBJ_DIR)/opt.o: $(SRC_DIR)/opt.c $(INCLUDE_DIR)/opt.h
+	gcc $(FLAGS) $(INCLUDEPATHS) -o $(OBJ_DIR)/opt.o $(SRC_DIR)/opt.c
 
 dox:
 	mkdir -p $(DOX_DIR)
@@ -63,5 +65,6 @@ dox:
 splint:
 	splint $(SPLINTFLAGS) $(INCLUDEPATHS) $(SRC_DIR)/main.c
 	splint $(SPLINTFLAGS) $(INCLUDEPATHS) $(SRC_DIR)/patient.c
+	splint $(SPLINTFLAGS) $(INCLUDEPATHS) $(SRC_DIR)/opt.c
 clean:
 	rm -rf $(OBJ_DIR) $(DOX_DIR) $(EXE_DIR) $(OUT_DIR) 
