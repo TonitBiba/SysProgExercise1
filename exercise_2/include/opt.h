@@ -19,18 +19,10 @@
 #define OPT_FILE         (char) 0x01
 #define OPT_APPEND       (char) 0x02
 #define OPT_LIST         (char) 0x04
-#define OPT_INTERACTIV   (char) 0x08
 #define OPT_MAX_NUM      (char) 0x04
 
 /* defines option's pattern */
-#define OPT_PATTERN      "f:ahilp:n:s:m:c:d:"
-
-/* define interactive commands */
-#define INTA_APPEND      "append"
-#define INTA_LIST        "list"
-#define INTA_HELP        "help"
-#define INTA_QUIT        "quit"
-#define INTA_CMD_MAXLEN  100
+#define OPT_PATTERN      "f:ahlp:n:s:m:c:d:"
 
 /* define OPTION STATUS */
 #define OPT_SPECIFIED    (char) 0x01
@@ -53,7 +45,6 @@ typedef struct _applOption
   char  *age;
   char  *address;
   char  *test_date;
-  char  interactive;
   char *f_name;
   FILE *fp;
   

@@ -18,6 +18,7 @@
 
 #include "str_serialize.h"
 #include "patient.h"
+#define BUFF_LEN (1024)
 
 
 /***************************************************************************//** 
@@ -138,53 +139,53 @@ void Patient_free(Patient_t *const patient)
 int Patient_write (FILE *fp, /*@null@*/ const Patient_t *const patient)
 {
   int status = 0;
-  int length = 0;
 
   if (patient == NULL)
     {
       return status;
     }
 
-  length = htonl(patient->nr_personal.length);
-
-  status = (int) fwrite ((const void *) &length, (size_t) 1, (size_t) SER_INT_LEN, fp);
-
-  status = (int) fwrite ((const void *) patient->nr_personal.p_str, (size_t) 1, (size_t) patient->nr_personal.length, fp);
-
-  length = htonl(patient->name.length);
-
-  status = (int) fwrite ((const void *) &length, (size_t) 1, (size_t) SER_INT_LEN, fp);
-
-  status = (int) fwrite ((const void *) patient->name.p_str, (size_t) 1, (size_t) patient->name.length, fp);
-
-  length = htonl(patient->surname.length);
-
-  status = (int) fwrite ((const void *) &length, (size_t) 1, (size_t) SER_INT_LEN, fp);
-
-  status = (int) fwrite ((const void *) patient->surname.p_str, (size_t) 1, (size_t) patient->surname.length, fp);
-
-  length = htonl(patient->address.length);
-
-  status = (int) fwrite ((const void *) &length, (size_t) 1, (size_t) SER_INT_LEN, fp);
-
-  status = (int) fwrite ((const void *) patient->address.p_str, (size_t) 1, (size_t) patient->address.length, fp);
-
-  length = htonl(patient->age.length);
-
-  status = (int) fwrite ((const void *) &length, (size_t) 1, (size_t) SER_INT_LEN, fp);
-
-  status = (int) fwrite ((const void *) patient->age.p_str, (size_t) 1, (size_t) patient->age.length, fp);
-
-  length = htonl(patient->test_date.length);
-
-  status = (int) fwrite ((const void *) &length, (size_t) 1, (size_t) SER_INT_LEN, fp);
-
-  status = (int) fwrite ((const void *) patient->test_date.p_str, (size_t) 1, (size_t) patient->test_date.length, fp);
+  status = Write_Attr(fp, &patient->nr_personal);
 
   if (status == 0)
-    {
-       printf ("\nError writing person name to the file");
-    }
+  {
+    printf ("\nError writing personal number to the file");
+  }
+
+  status = Write_Attr(fp, &patient->name);
+
+  if (status == 0)
+  {
+    printf ("\nError writing name to the file");
+  }
+
+  status = Write_Attr(fp, &patient->surname);
+
+  if (status == 0)
+  {
+    printf ("\nError writing surname to the file");
+  }
+
+  status = Write_Attr(fp, &patient->address);
+
+  if (status == 0)
+  {
+    printf ("\nError writing address to the file");
+  }
+
+  status = Write_Attr(fp, &patient->age);
+  
+  if (status == 0)
+  {
+    printf ("\nError writing age to the file");
+  }
+
+  status = Write_Attr(fp, &patient->test_date);
+
+  if (status == 0)
+  {
+    printf ("\nError writing test date to the file");
+  }
 
   return status;
 }
@@ -211,7 +212,7 @@ int Patient_read  (FILE *fp, /*@null@*/ Patient_t *const patient)
       return SER_ALLOC_ERROR;
     }
   
-  status = fread ( (void *) patient->nr_personal.p_str, (size_t) 1, (size_t) patient->nr_personal.length, fp);
+  status = fread ((void *) patient->nr_personal.p_str, (size_t) 1, (size_t) patient->nr_personal.length, fp);
 
   patient->nr_personal.p_str [patient->nr_personal.length] = '\0';
 
@@ -342,6 +343,45 @@ int Patient_read  (FILE *fp, /*@null@*/ Patient_t *const patient)
           return status;
         }
     }
+
+  return status;
+}
+
+void printHeader()
+{
+  printf ("nr. \t%s \t%s \t\t%s \t%s \t%s \t%s\n", "Personal number", "Name", "Surname", "Address", "Age", "Test date");
+}
+
+char *Get_Attr(const char *attr_name, char *arg)
+{
+  if(arg != NULL){
+    return arg;
+  }
+        
+  char buff [BUFF_LEN];
+
+  printf("\nType the patient %s: ", attr_name);
+  fgets (&buff[0], BUFF_LEN, stdin);
+  buff[strcspn(buff, "\n")] = '\0';
+  char* tmp = malloc(strlen(buff) + 1); 
+  if (tmp == NULL)
+  {
+    return NULL;
+  }
+  strcpy(tmp, buff);
+  return tmp;
+}
+
+int Write_Attr(FILE *fp, /*@null@*/ const CString_t *const arg)
+{
+  int status = 0;
+  int length = 0;
+
+  length = htonl(arg->length);
+
+  status = (int) fwrite ((const void *) &length, (size_t) 1, (size_t) SER_INT_LEN, fp);
+
+  status = (int) fwrite ((const void *) arg->p_str, (size_t) 1, (size_t) arg->length, fp);
 
   return status;
 }

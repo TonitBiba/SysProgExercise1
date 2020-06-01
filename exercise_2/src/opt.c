@@ -26,51 +26,6 @@ extern char *optarg;
 extern int   optopt;
 
 /***************************************************************************//** 
- * @brief Private member - checks if the options are OK 
- *
- * This functions checks the specified options
- *
- * @param[in,out] aoObj - pointer to the application's options object
- *
- * @retval 
- ******************************************************************************/
-int opt_check__  (/*@out@*/applOption *aoObj)
-{
-  int res = (int) OPT_SUCCESS;
-
-  if (aoObj == NULL)
-    {
-      return (int) OPT_PROC_ERROR;
-    }
-  
-  if (aoObj->interactive == OPT_SPECIFIED &&
-      (aoObj->append == OPT_SPECIFIED || aoObj->list == OPT_SPECIFIED)
-     )
-    {
-      printf ("\nInvalid option combination: interactiv ");
-      if (aoObj->append == OPT_SPECIFIED)
-        {
-          printf (" and append ");
-        }
-      else
-        {
-          printf (" and list ");
-        }
-
-      printf (" is not allowed\n");
-      res = (int) OPT_PROC_ERROR;
-    }
-
-  if (aoObj->f_name == NULL)
-    {
-      printf ("\nThe file option (-f f_name) has to be defined\n");
-      res = (int) OPT_PROC_ERROR;
-    }
-
-  return res;
-}
-
-/***************************************************************************//** 
  * @brief Initializes the data structure describing the application options 
  *
  * This functions initializes the data structure that describes the specified
@@ -89,7 +44,6 @@ void opt_init  (/*@out@*/applOption *aoObj)
   
   aoObj->append      = OPT_NOTSPECIFIED;
   aoObj->list        = OPT_NOTSPECIFIED;
-  aoObj->interactive = OPT_NOTSPECIFIED;
   aoObj->nr_personal = NULL;
   aoObj->name        = NULL;
   aoObj->surname     = NULL;
@@ -124,7 +78,6 @@ void opt_free  (/*@out@*/applOption *aoObj)
   
   aoObj->append      = OPT_NOTSPECIFIED;
   aoObj->list        = OPT_NOTSPECIFIED;
-  aoObj->interactive = OPT_NOTSPECIFIED;
   aoObj->nr_personal = NULL;
   aoObj->name        = NULL;
   aoObj->surname     = NULL;
@@ -165,7 +118,6 @@ int opt_proc (int argc, char *argv [], /*@out@*/applOption *aoObj)
       return (int) OPT_PROC_ERROR;
     }
   
-  /* while ((n_opt = getopt (argc, argv, OPT_PATTERN)) != -1) */
   while ((n_opt = getopt (argc, argv, OPT_PATTERN)) != -1)
     {
       printf ("\nThe option -%c [%s]", n_opt, argv [1]);
@@ -186,6 +138,7 @@ int opt_proc (int argc, char *argv [], /*@out@*/applOption *aoObj)
   
         case 'p':
           aoObj->nr_personal = optarg;
+          printf("Numri personal: %s", optarg);
           break;
         
         case 'n':
@@ -212,10 +165,6 @@ int opt_proc (int argc, char *argv [], /*@out@*/applOption *aoObj)
           opt_usage (argv [0]);
           break;
           
-        case 'i':
-          aoObj->interactive = OPT_SPECIFIED;
-          break;
-          
         case 'l':
           aoObj->list = OPT_SPECIFIED;
           break;
@@ -230,11 +179,6 @@ int opt_proc (int argc, char *argv [], /*@out@*/applOption *aoObj)
         }
     }
 
-  if (opt_check__ (aoObj) == (int) OPT_PROC_ERROR)
-    {
-      opt_usage (argv [0]);
-      return (int) OPT_PROC_ERROR;
-    }
 
   return (int) OPT_SUCCESS;
 }
@@ -300,7 +244,6 @@ void opt_usage (const char *app_name)
   printf ("\t -f arg, (mandatory) the file name \n");
   printf ("\t -a,     (optional) append a string to the file \n");
   printf ("\t -h,     (optional) print this message \n");
-  printf ("\t -i,     (optional) start the interactive mode \n");
   printf ("\t -l,     (optional) list all strings stored in the file \n");
   printf ("\t -p arg, (optional) personal number \n");
   printf ("\t -n arg, (optional) patient name \n");

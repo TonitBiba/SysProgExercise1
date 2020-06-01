@@ -22,19 +22,16 @@
 #include "str_serialize.h"
 #include "patient.h"
 
-#define BUFF_LEN (1024)
-
 int main(int argc, char *argv [])
 {
-  char        buff [BUFF_LEN];
   applOption  aoObj;
   int         status = 0;
-  char       *personal_number;
-  char       *age;
-  char       *name;
-  char       *surname;
-  char       *address;
-  char       *test_date;
+  char       *personal_number = NULL;
+  char       *age = NULL;
+  char       *name = NULL;
+  char       *surname = NULL;
+  char       *address = NULL;
+  char       *test_date = NULL;
   Patient_t   patient;
   Patient_t   patient_read;
 
@@ -60,84 +57,17 @@ int main(int argc, char *argv [])
 
   if (aoObj.append == (char) OPT_SPECIFIED)
     {
-      if(aoObj.nr_personal == NULL){
-        printf("\nType the patient personal number: ");
-        fgets (&buff[0], BUFF_LEN, stdin);
-        buff[strcspn(buff, "\n")] = '\0';
-        char* tmp = malloc(strlen(buff) + 1); 
-        if (tmp == NULL)
-        {
-          return -1;
-        }
-        strcpy(tmp, buff);
-        personal_number = tmp;
-      }
-      
-      if(aoObj.name == NULL){
-        printf("\nType the patient name: ");
-        fgets (&buff[0], BUFF_LEN, stdin);
-        buff[strcspn(buff, "\n")] = '\0';
-        char* tmp = malloc(strlen(buff) + 1); 
-        if (tmp == NULL)
-        {
-          return -1;
-        }
-        strcpy(tmp, buff);
-        name = tmp;
-      }
-    
-     if(aoObj.surname == NULL){
-        printf("\nType the patient surname: ");
-        fgets (&buff[0], BUFF_LEN, stdin);
-        buff[strcspn(buff, "\n")] = '\0';
-        char* tmp = malloc(strlen(buff) + 1); 
-        if (tmp == NULL)
-        {
-          return -1;
-        }
-        strcpy(tmp, buff);
-        surname = tmp;
-      }
+      personal_number = Get_Attr("personal number", aoObj.nr_personal);
 
-      if(aoObj.address == NULL){
-        printf("\nType the patient address: ");
-        fgets (&buff[0], BUFF_LEN, stdin);
-        buff[strcspn(buff, "\n")] = '\0';
-        char* tmp = malloc(strlen(buff) + 1); 
-        if (tmp == NULL)
-        {
-          return -1;
-        }
-        strcpy(tmp, buff);
-        address = tmp;
-      }
+      name = Get_Attr("name", aoObj.name);
 
-      if(aoObj.age == NULL){
-        printf("\nType the patient age: ");
-        fgets (&buff[0], BUFF_LEN, stdin);
-        buff[strcspn(buff, "\n")] = '\0';
-        char* tmp = malloc(strlen(buff) + 1); 
-        if (tmp == NULL)
-        {
-          return -1;
-        }
-        strcpy(tmp, buff);
-        age = tmp;
-      }
+      surname = Get_Attr("surname", aoObj.surname);
 
-      if(aoObj.test_date == NULL){
-        printf("\nType the patient test date for Covid: ");
-        fgets (&buff[0], BUFF_LEN, stdin);
-        buff[strcspn(buff, "\n")] = '\0';
-        char* tmp = malloc(strlen(buff) + 1); 
-        if (tmp == NULL)
-        {
-          return -1;
-        }
-        strcpy(tmp, buff);
-        test_date = tmp;
-      } 
+      address = Get_Attr("address", aoObj.address);
 
+      age = Get_Attr("age", aoObj.age);
+
+      test_date = Get_Attr("test date", aoObj.test_date);
 
       if(Patient_init(personal_number, name, surname, age, address, test_date, &patient)==0){
           printf ("\nError while initilizing patient with data.");
@@ -152,15 +82,6 @@ int main(int argc, char *argv [])
           (void) opt_free (&aoObj);
           return -1;
       }
-
-      /*printf("\n%s\n", &patient->name.p_str);
-
-      if (str_write (aoObj.fp, &cw_str) == 0)
-        {
-          printf ("\nError writing the string '%s' to the file", w_str);
-          (void) opt_free (&aoObj);
-          return -1;cr_str
-    }*/
     }
 
   if (aoObj.list == (char) OPT_SPECIFIED)
@@ -183,7 +104,6 @@ int main(int argc, char *argv [])
             break;
 
             case 0:
-            
             break;
 
             default:
@@ -193,15 +113,9 @@ int main(int argc, char *argv [])
         } while (status >0);
     }
 
-  /* release all resources */ 
   (void) opt_free (&aoObj);
   
   printf ("\nThank you!\n");
    
   return 0;
-}
-
-void printHeader()
-{
-  printf ("nr. \t%s \t%s \t\t%s \t%s \t%s \t%s\n", "Personal number", "Name", "Surname", "Address", "Age", "Test date");
 }

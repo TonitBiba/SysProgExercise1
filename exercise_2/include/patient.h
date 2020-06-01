@@ -32,10 +32,17 @@ typedef struct _Patient
 } Patient_t;
 
 int Patient_init(const char *nr_personal, const char *name, const char *surname, const char *age, const char *address, const char *test_date, Patient_t *const patient);
+
 void Patient_free(Patient_t *const patient);
 
 int Patient_write (FILE *fp, /*@null@*/ const Patient_t *const patient);
 
 int Patient_read  (FILE *fp, /*@null@*/ Patient_t *const patient);
+
+void printHeader();
+
+char *Get_Attr(const char *attr_name, char *arg);
+
+int Write_Attr(FILE *fp, /*@null@*/ const CString_t *const arg);
 
 #endif /* _PATIENT_H */
