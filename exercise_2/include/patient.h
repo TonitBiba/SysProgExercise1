@@ -26,12 +26,12 @@ typedef struct _Patient
     CString_t  nr_personal;
     CString_t  name;
     CString_t  surname;
-    int        age;
+    CString_t  age;
     CString_t  address;
     CString_t  test_date;
 } Patient_t;
 
-int Patient_init(const char *nr_personal, const char *name, const char *surname, const int age, const char *address, const char *test_date, Patient_t *const patient);
+int Patient_init(const char *nr_personal, const char *name, const char *surname, const char *age, const char *address, const char *test_date, Patient_t *const patient);
 void Patient_free(Patient_t *const patient);
 
 int Patient_write (FILE *fp, /*@null@*/ const Patient_t *const patient);

@@ -47,10 +47,10 @@ typedef struct _applOption
 {
   char  append;
   char  list;
-  int  nr_personal;
+  char  *nr_personal;
   char  *name;
   char  *surname;
-  int   age;
+  char  *age;
   char  *address;
   char  *test_date;
   char  interactive;

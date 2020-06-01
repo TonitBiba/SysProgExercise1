@@ -90,10 +90,10 @@ void opt_init  (/*@out@*/applOption *aoObj)
   aoObj->append      = OPT_NOTSPECIFIED;
   aoObj->list        = OPT_NOTSPECIFIED;
   aoObj->interactive = OPT_NOTSPECIFIED;
-  aoObj->nr_personal = -1;
+  aoObj->nr_personal = NULL;
   aoObj->name        = NULL;
   aoObj->surname     = NULL;
-  aoObj->age         = -1;
+  aoObj->age         = NULL;
   aoObj->address     = NULL;
   aoObj->test_date   = NULL;
   aoObj->f_name      = NULL;
@@ -125,10 +125,10 @@ void opt_free  (/*@out@*/applOption *aoObj)
   aoObj->append      = OPT_NOTSPECIFIED;
   aoObj->list        = OPT_NOTSPECIFIED;
   aoObj->interactive = OPT_NOTSPECIFIED;
-  aoObj->nr_personal = -1;
+  aoObj->nr_personal = NULL;
   aoObj->name        = NULL;
   aoObj->surname     = NULL;
-  aoObj->age         = -1;
+  aoObj->age         = NULL;
   aoObj->address     = NULL;
   aoObj->test_date   = NULL;
 
@@ -185,7 +185,7 @@ int opt_proc (int argc, char *argv [], /*@out@*/applOption *aoObj)
           break;
   
         case 'p':
-          aoObj->nr_personal = atoi(optarg);
+          aoObj->nr_personal = optarg;
           break;
         
         case 'n':
@@ -197,7 +197,7 @@ int opt_proc (int argc, char *argv [], /*@out@*/applOption *aoObj)
           break;
 
         case 'm':
-          aoObj->age = atoi(optarg);
+          aoObj->age = optarg;
           break;
 
         case 'c':

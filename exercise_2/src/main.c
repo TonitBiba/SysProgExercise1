@@ -30,7 +30,7 @@ int main(int argc, char *argv [])
   applOption  aoObj;
   int         status = 0;
   char       *personal_number;
-  int         age = 0;
+  char       *age;
   char       *name;
   char       *surname;
   char       *address;
@@ -60,7 +60,7 @@ int main(int argc, char *argv [])
 
   if (aoObj.append == (char) OPT_SPECIFIED)
     {
-      if(aoObj.nr_personal == -1){
+      if(aoObj.nr_personal == NULL){
         printf("\nType the patient personal number: ");
         fgets (&buff[0], BUFF_LEN, stdin);
         buff[strcspn(buff, "\n")] = '\0';
@@ -112,7 +112,7 @@ int main(int argc, char *argv [])
         address = tmp;
       }
 
-      if(aoObj.age == -1){
+      if(aoObj.age == NULL){
         printf("\nType the patient age: ");
         fgets (&buff[0], BUFF_LEN, stdin);
         buff[strcspn(buff, "\n")] = '\0';
@@ -122,8 +122,7 @@ int main(int argc, char *argv [])
           return -1;
         }
         strcpy(tmp, buff);
-        age = atoi(tmp);
-        printf("Mosha :%d", age);
+        age = tmp;
       }
 
       if(aoObj.test_date == NULL){
@@ -167,11 +166,14 @@ int main(int argc, char *argv [])
   if (aoObj.list == (char) OPT_SPECIFIED)
     {
       /* list all strings */
-      printf ("\n\nThe content of the file: \n");
+      printf ("\n\nList of tested patients: \n");
+      int patientNo = 0;
+          printHeader();
+
       do
         {
+          patientNo++;
           status = Patient_read (aoObj.fp, &patient_read);
-
           switch (status)
           {
             case SER_ALLOC_ERROR:
@@ -180,8 +182,12 @@ int main(int argc, char *argv [])
               return -1;
             break;
 
+            case 0:
+            
+            break;
+
             default:
-              printf ("\t%s", patient.nr_personal.p_str);
+              printf ("%d. \t%s \t\t%s \t\t%s \t\t%s \t%s \t%s\n", patientNo, patient_read.nr_personal.p_str, patient_read.name.p_str, patient_read.surname.p_str, patient_read.address.p_str, patient_read.age.p_str, patient_read.test_date.p_str);
               break;
             }
         } while (status >0);
@@ -193,4 +199,9 @@ int main(int argc, char *argv [])
   printf ("\nThank you!\n");
    
   return 0;
+}
+
+void printHeader()
+{
+  printf ("nr. \t%s \t%s \t\t%s \t%s \t%s \t%s\n", "Personal number", "Name", "Surname", "Address", "Age", "Test date");
 }
