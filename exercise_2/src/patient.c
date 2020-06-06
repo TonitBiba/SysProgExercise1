@@ -4,7 +4,7 @@
  *
  * @file  patient.c
  *
- * @brief Implements functions for the patient with Covid-19 
+ * @brief Implements functions for the patients tested with Covid-19 
  * 
  * @author Tonit Biba (tonit.biba@hotmail.com)
  * @date   $Date: Sht 30 Maj 2020 09:52:49.PD CEST $
@@ -22,10 +22,18 @@
 
 
 /***************************************************************************//** 
- * @brief Initialize a Person_t object
+ * @brief Initialize the data structure which describes a Patient_t object
  *
- * @param[in,out] fp    - file pointer TODO documentation
- * @param[in]     c_str - the input CString_t
+ * This function initilizes the data structure that describes the specified 
+ * patient structure
+ * 
+ * @param[in] nr_personal - char array of personal number
+ * @param[in] name - char array of name
+ * @param[in] surname - char array of surname
+ * @param[in] age - char array of age
+ * @param[in] address - char array of address
+ * @param[in] test_date - char array of test_date
+ * @param[in,out] fp    - file pointer in which will be written patient data
  *
  * @retval 0  in case an error was occured.
  * @retval 1 if patient is initialized successfully.
@@ -46,54 +54,52 @@ int Patient_init(const char *nr_personal, const char *name, const char *surname,
 
   if(str_init (nr_personal, &patient->nr_personal) == 0)
   {
-      perror("Initianization of nr_personal attribute failed!");
+      perror("Initialization of nr_personal attribute failed!");
       Patient_free(patient);
       return 0;
   }
 
   if(str_init (name, &patient->name) == 0)
   {
-      perror("Initianization of name attribute failed!");
+      perror("Initialization of name attribute failed!");
       Patient_free(patient);
       return 0;
   }
 
   if(str_init (surname, &patient->surname) == 0)
   {
-      perror("Initianization of surname attribute failed");
+      perror("Initialization of surname attribute failed");
       Patient_free(patient);
       return 0;
   }
 
   if(str_init (address, &patient->address) == 0)
   {
-      perror("Initianization of address attribute failed");
+      perror("Initialization of address attribute failed");
       Patient_free(patient);
       return 0;
   }
 
   if(str_init (age, &patient->age) == 0)
   {
-      perror("Initianization of age attribute failed");
+      perror("Initialization of age attribute failed");
       Patient_free(patient);
       return 0;
   }
 
   if(str_init (test_date, &patient->test_date) == 0)
   {
-      perror("Initianization of test date attribute failed");
+      perror("Initialization of test date attribute failed");
       Patient_free(patient);
       return 0;
   }
-
     return 1;
 }
 
 /***************************************************************************//** 
- * @brief Release an object of type Person_t
+ * @brief Release an object of type Patient_t
  *
- * @param[in,out]     Person_t person - the object to be released
- *
+ * @param[in,out] patient - the object to be released
  *
  * @retval void
  ******************************************************************************/
@@ -136,13 +142,24 @@ void Patient_free(Patient_t *const patient)
     }
 }
 
+/***************************************************************************//** 
+ * @brief Writes the data structure which describes a Patient_t object
+ *
+ * This function writes the data structure that describes the specified 
+ * patient structure
+ * @param[in,out] fp - file pointer in which will be written patient data 
+ * @param[in,out] patient - patient pointer which will be written 
+ *
+ * @retval 0  in case an error was occured.
+ * @retval 1 if patient is written successfully.
+ ******************************************************************************/
 int Patient_write (FILE *fp, /*@null@*/ const Patient_t *const patient)
 {
   int status = 0;
 
   if (patient == NULL)
     {
-      return status;
+      return 0;
     }
 
   status = Write_Attr(fp, &patient->nr_personal);
@@ -150,6 +167,7 @@ int Patient_write (FILE *fp, /*@null@*/ const Patient_t *const patient)
   if (status == 0)
   {
     printf ("\nError writing personal number to the file");
+    return 0;
   }
 
   status = Write_Attr(fp, &patient->name);
@@ -157,6 +175,7 @@ int Patient_write (FILE *fp, /*@null@*/ const Patient_t *const patient)
   if (status == 0)
   {
     printf ("\nError writing name to the file");
+    return 0;
   }
 
   status = Write_Attr(fp, &patient->surname);
@@ -164,6 +183,7 @@ int Patient_write (FILE *fp, /*@null@*/ const Patient_t *const patient)
   if (status == 0)
   {
     printf ("\nError writing surname to the file");
+    return 0;
   }
 
   status = Write_Attr(fp, &patient->address);
@@ -171,6 +191,7 @@ int Patient_write (FILE *fp, /*@null@*/ const Patient_t *const patient)
   if (status == 0)
   {
     printf ("\nError writing address to the file");
+    return 0;
   }
 
   status = Write_Attr(fp, &patient->age);
@@ -178,6 +199,7 @@ int Patient_write (FILE *fp, /*@null@*/ const Patient_t *const patient)
   if (status == 0)
   {
     printf ("\nError writing age to the file");
+    return 0;
   }
 
   status = Write_Attr(fp, &patient->test_date);
@@ -185,11 +207,24 @@ int Patient_write (FILE *fp, /*@null@*/ const Patient_t *const patient)
   if (status == 0)
   {
     printf ("\nError writing test date to the file");
+    return 0;
   }
-
-  return status;
+  return 1;
 }
 
+/***************************************************************************//** 
+ * @brief Reades the data structure which describes a Patient_t object
+ *
+ * This function is used to read a line of file in format of Patient_t structure.
+ * 
+ * @param[in,out] fp - file pointer in which will be read patient data 
+ * @param[in,out] patient - patient pointer which will be written 
+ *
+ * @retval -1 in case of memory allocation fail
+ * @retval 0  in case an error was occured.
+ * @retval 1 if patient is initialized successfully.
+ * @retval 2 if is reached the end of file.
+ ******************************************************************************/
 int Patient_read  (FILE *fp, /*@null@*/ Patient_t *const patient)
 {
   int   s_len  = 0;
@@ -197,9 +232,9 @@ int Patient_read  (FILE *fp, /*@null@*/ Patient_t *const patient)
 
   if (fp == NULL || patient == NULL) 
     {
-      return status;
+      return 0;
     }
-/*Personal number*/
+  /*Personal number*/
   status = fread ( (void *) &s_len, (size_t) 1, (size_t) SER_INT_LEN, fp);
   
   patient->nr_personal.length = ntohl(s_len);
@@ -209,7 +244,7 @@ int Patient_read  (FILE *fp, /*@null@*/ Patient_t *const patient)
   if (patient->nr_personal.p_str == NULL)
     {
       printf ("\nError allocating memory");
-      return SER_ALLOC_ERROR;
+      return -1;
     }
   
   status = fread ((void *) patient->nr_personal.p_str, (size_t) 1, (size_t) patient->nr_personal.length, fp);
@@ -231,7 +266,7 @@ int Patient_read  (FILE *fp, /*@null@*/ Patient_t *const patient)
   if (patient->name.p_str == NULL)
     {
       printf ("\nError allocating memory");
-      return SER_ALLOC_ERROR;
+      return -1;
     }
   
   status = fread ( (void *) patient->name.p_str, (size_t) 1, (size_t) patient->name.length, fp);
@@ -253,7 +288,7 @@ int Patient_read  (FILE *fp, /*@null@*/ Patient_t *const patient)
   if (patient->surname.p_str == NULL)
     {
       printf ("\nError allocating memory");
-      return SER_ALLOC_ERROR;
+      return -1;
     }
   
   status = fread ( (void *) patient->surname.p_str, (size_t) 1, (size_t) patient->surname.length, fp);
@@ -275,7 +310,7 @@ int Patient_read  (FILE *fp, /*@null@*/ Patient_t *const patient)
   if (patient->address.p_str == NULL)
     {
       printf ("\nError allocating memory");
-      return SER_ALLOC_ERROR;
+      return -1;
     }
   
   status = fread ( (void *) patient->address.p_str, (size_t) 1, (size_t) patient->address.length, fp);
@@ -297,7 +332,7 @@ int Patient_read  (FILE *fp, /*@null@*/ Patient_t *const patient)
   if (patient->age.p_str == NULL)
     {
       printf ("\nError allocating memory");
-      return SER_ALLOC_ERROR;
+      return -1;
     }
   
   status = fread ( (void *) patient->age.p_str, (size_t) 1, (size_t) patient->age.length, fp);
@@ -319,7 +354,7 @@ int Patient_read  (FILE *fp, /*@null@*/ Patient_t *const patient)
   if (patient->test_date.p_str == NULL)
     {
       printf ("\nError allocating memory");
-      return SER_ALLOC_ERROR;
+      return -1;
     }
   
   status = fread ( (void *) patient->test_date.p_str, (size_t) 1, (size_t) patient->test_date.length, fp);
@@ -335,7 +370,7 @@ int Patient_read  (FILE *fp, /*@null@*/ Patient_t *const patient)
     {
       if (feof (fp) != 0)
         {
-          return SER_EOF;
+          return 2;
         }
       else
         {
@@ -344,14 +379,51 @@ int Patient_read  (FILE *fp, /*@null@*/ Patient_t *const patient)
         }
     }
 
-  return status;
+  return 1;
 }
 
+/***************************************************************************//** 
+ * @brief Writes the header of table for patient list  
+ *
+ * This functions writes the header of table in which will be displayed patients data.
+ *
+ * @retval void
+ ******************************************************************************/
 void printHeader()
 {
-  printf ("nr. \t%s \t%s \t\t%s \t%s \t%s \t%s\n", "Personal number", "Name", "Surname", "Address", "Age", "Test date");
+  printf ("\n******************************************************************************************************************\n");
+  printf ("*%-35s List of patients tested with Covid-19. %38s \n", "", "*");
+  printf ("******************************************************************************************************************\n");
+  printf ("* nr. |%-20s|%-20s|%-20s|%-20s|%-10s|%-20s\n", "Personal number", "Name", "Surname", "Address", "Age", "Test date  *");
 }
 
+/***************************************************************************//** 
+ * @brief Writes the footer of table for patient list  
+ *
+ * This functions writes the footer of table in which will be displayed patients data.
+ * @param[in] total - total number of patient in file.
+ * @retval void
+ ******************************************************************************/
+void printFooter(const int total)
+{
+  printf ("******************************************************************************************************************\n");
+  printf ("*%-35s Total number of patient tested with Covid-19 is %d. %26s \n", "", total, "*");
+  printf ("******************************************************************************************************************\n");
+}
+
+/***************************************************************************//** 
+ * @brief Initialize attribute of Patient_t structure
+ *
+ * This function initilizes the attribute of Patient_t structure with data from argument 
+ * or from user input if it is not specified.
+ * 
+ * @param[in] attr_name - char array attribute name.
+ * @param[in] arg - char array of argument if it is specified by user.
+ *
+ * @retval NULL in case of error.
+ * @retval arg  in case of specified by user argument
+ * @retval char* in case if it has been read by user input.
+ ******************************************************************************/
 char *Get_Attr(const char *attr_name, char *arg)
 {
   if(arg != NULL){

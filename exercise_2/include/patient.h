@@ -41,6 +41,8 @@ int Patient_read  (FILE *fp, /*@null@*/ Patient_t *const patient);
 
 void printHeader();
 
+void printFooter(const int total);
+
 char *Get_Attr(const char *attr_name, char *arg);
 
 int Write_Attr(FILE *fp, /*@null@*/ const CString_t *const arg);

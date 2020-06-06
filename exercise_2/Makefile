@@ -42,10 +42,10 @@ $(EXE_DIR):
 ####################################################################
 # Build instructions			 								   #
 ####################################################################
-all: $(OBJ_DIR) $(EXE_DIR) $(EXE_DIR)/covidlist
+all: $(OBJ_DIR) $(EXE_DIR) $(EXE_DIR)/covid
 
-$(EXE_DIR)/covidlist: $(OBJ_DIR)/main.o $(OBJ_DIR)/patient.o $(OBJ_DIR)/opt.o $(OBJ_DIR)/str_serialize.o
-	gcc $(OBJ_DIR)/main.o $(OBJ_DIR)/patient.o $(OBJ_DIR)/opt.o $(OBJ_DIR)/str_serialize.o -o $(EXE_DIR)/covidlist
+$(EXE_DIR)/covid: $(OBJ_DIR)/main.o $(OBJ_DIR)/patient.o $(OBJ_DIR)/option.o $(OBJ_DIR)/str_serialize.o
+	gcc $(OBJ_DIR)/main.o $(OBJ_DIR)/patient.o $(OBJ_DIR)/option.o $(OBJ_DIR)/str_serialize.o -o $(EXE_DIR)/covid
 
 $(OBJ_DIR)/main.o: $(SRC_DIR)/main.c 
 	gcc $(FLAGS) $(INCLUDEPATHS) -o $(OBJ_DIR)/main.o $(SRC_DIR)/main.c 
@@ -53,8 +53,8 @@ $(OBJ_DIR)/main.o: $(SRC_DIR)/main.c
 $(OBJ_DIR)/patient.o: $(SRC_DIR)/patient.c $(INCLUDE_DIR)/patient.h
 	gcc $(FLAGS) $(INCLUDEPATHS) -o $(OBJ_DIR)/patient.o $(SRC_DIR)/patient.c
 
-$(OBJ_DIR)/opt.o: $(SRC_DIR)/opt.c $(INCLUDE_DIR)/opt.h
-	gcc $(FLAGS) $(INCLUDEPATHS) -o $(OBJ_DIR)/opt.o $(SRC_DIR)/opt.c
+$(OBJ_DIR)/option.o: $(SRC_DIR)/option.c $(INCLUDE_DIR)/option.h
+	gcc $(FLAGS) $(INCLUDEPATHS) -o $(OBJ_DIR)/option.o $(SRC_DIR)/option.c
 
 $(OBJ_DIR)/str_serialize.o: $(SRC_DIR)/str_serialize.c $(INCLUDE_DIR)/str_serialize.h
 	gcc $(FLAGS) $(INCLUDEPATHS) -o $(OBJ_DIR)/str_serialize.o $(SRC_DIR)/str_serialize.c
@@ -68,7 +68,7 @@ dox:
 splint:
 	splint $(SPLINTFLAGS) $(INCLUDEPATHS) $(SRC_DIR)/main.c
 	splint $(SPLINTFLAGS) $(INCLUDEPATHS) $(SRC_DIR)/patient.c
-	splint $(SPLINTFLAGS) $(INCLUDEPATHS) $(SRC_DIR)/opt.c
+	splint $(SPLINTFLAGS) $(INCLUDEPATHS) $(SRC_DIR)/option.c
 	splint $(SPLINTFLAGS) $(INCLUDEPATHS) $(SRC_DIR)/str_serialize.c
 clean:
 	rm -rf $(OBJ_DIR) $(DOX_DIR) $(EXE_DIR) $(OUT_DIR) 
