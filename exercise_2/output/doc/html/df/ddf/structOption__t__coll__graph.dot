@@ -1,0 +1,6 @@
+digraph "Option_t"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{Option_t\n|+ append\l+ list\l+ nr_personal\l+ name\l+ surname\l+ age\l+ address\l+ test_date\l+ f_name\l+ fp\l|}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+}

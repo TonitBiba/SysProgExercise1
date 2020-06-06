@@ -1,10 +1,10 @@
 /** 
- * Copyright (C) 2020 Tonit Biba All rights reserved
- * University of Prishtina, Prishtine, Kosove. tonit.biba@hotmail.com
+ * Copyright (C) 2020 Tonit Biba All rights reserved.
+ * University of Prishtina, Prishtine, Kosove. tonit.biba@hotmail.com.
  *
  * @file  option.h
  *
- * @brief Implements functions for the patient with Covid-19 
+ * @brief Implements functions for options and arguments procesing.
  * 
  * @author Tonit Biba (tonit.biba@hotmail.com)
  * @date   $Date: Sht 30 Maj 2020 09:52:49.PD CEST $

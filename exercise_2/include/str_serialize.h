@@ -1,13 +1,14 @@
 /** 
- * Copyright (C) 2003-2019 Dipl.Ing. Dr. techn. Idriz Smaili. All rights reserved
- * Siebenbuergerstrasse 16-26/26/17, A--1220 Wien, Austria. smaili.idriz@gmail.com
+ * Copyright (C) 2020 Tonit Biba All rights reserved
+ * University of Prishtina, Prishtine, Kosove. tonit.biba@hotmail.com
  *
- * @file  str_serialize.h
+ * @file  str_serialize.c
  *
- * @brief Implements functions for the string file serialization 
+ * @brief Implements functions for the string file serialization. This fajlli is identicial with file that has been send by prof. Idriz Smajli. 
+ * Credits to prof. Idriz Smajli
  * 
- * @author (IS) Dr.techn. Dipl.-Ing. Idriz Smaili (smaili.idriz@gmail.com)
- * @date   $Date: Fri Apr 20, 15:27:59 WEST 2019 $
+ * @author IS) Dr.techn. Dipl.-Ing. Idriz Smaili (smaili.idriz@gmail.com)
+ * @date   $Date: Sht 30 Maj 2020 09:52:49.PD CEST $
  */
 
 #ifndef _STR_SERIALIZE_H

@@ -444,6 +444,18 @@ char *Get_Attr(const char *attr_name, char *arg)
   return tmp;
 }
 
+/***************************************************************************//** 
+ * @brief Initialize attribute of Patient_t structure
+ *
+ * This function initilizes the attribute of Patient_t structure with data from argument 
+ * or from user input if it is not specified.
+ * 
+ * @param[in] fp - fp pointer.
+ * @param[in] arg - CString_t attribute which will be written to file.
+ *
+ * @retval number of files that are written in file.
+ * @retval 0 in case of error.
+ ******************************************************************************/
 int Write_Attr(FILE *fp, /*@null@*/ const CString_t *const arg)
 {
   int status = 0;

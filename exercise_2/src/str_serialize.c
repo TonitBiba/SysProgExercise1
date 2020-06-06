@@ -4,7 +4,8 @@
  *
  * @file  str_serialize.c
  *
- * @brief Implements functions for the string file serialization. This fajlli is identicial with file that has been send by prof. Idriz Smajli. Credits to prof. Idriz Smajli
+ * @brief Implements functions for the string file serialization. This fajlli is identicial with file that has been send by prof. Idriz Smajli. 
+ * Credits to prof. Idriz Smajli
  * 
  * @author IS) Dr.techn. Dipl.-Ing. Idriz Smaili (smaili.idriz@gmail.com)
  * @date   $Date: Sht 30 Maj 2020 09:52:49.PD CEST $
