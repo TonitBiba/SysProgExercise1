@@ -441,7 +441,6 @@ char *Get_Attr(const char *attr_name, char *arg)
     return NULL;
   }
   strcpy(tmp, buff);
-  free(tmp);
   return tmp;
 }
 

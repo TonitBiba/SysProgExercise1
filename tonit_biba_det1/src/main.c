@@ -110,6 +110,29 @@ int main(int argc, char *argv [])
         printFooter(patientNo-1);
     }
 
+if(option.nr_personal == NULL){
+  free(personal_number);
+}
+
+if(option.name == NULL){
+  free(name);
+}
+
+if(option.surname == NULL){
+  free(surname);
+}
+
+if(option.age == NULL){
+  free(age);
+}
+
+if(option.address == NULL){
+  free(address);
+}
+
+if(option.test_date == NULL){
+  free(test_date);
+}
   (void) option_free (&option);
 
   printf ("\nThank you!\nTonit Biba\n");
